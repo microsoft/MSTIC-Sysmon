@@ -1,0 +1,22 @@
+<!--
+  dd: convert and copy a file.
+
+  Reference:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
+  - https://www.man7.org/linux/man-pages/man1/dd.1.html
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="and">
+            <Image condition="is">/bin/dd</Image>
+            <CommandLine condition="contains">dd</CommandLine>
+            <CommandLine condition="contains">of=</CommandLine>
+            <CommandLine condition="contains any">if=/dev/zero;if=/dev/null</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
