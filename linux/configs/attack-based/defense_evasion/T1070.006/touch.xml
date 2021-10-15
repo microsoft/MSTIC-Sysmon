@@ -1,0 +1,20 @@
+<!--
+  dd: convert and copy a file.
+
+  Reference:
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.006/T1070.006.md
+  - https://www.man7.org/linux/man-pages/man1/touch.1.html
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="and">
+            <Image condition="is">/bin/touch</Image>
+            <CommandLine condition="contains any">t;--time</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

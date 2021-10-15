@@ -1,0 +1,17 @@
+<!--
+  Reference:
+  - https://linux.die.net/man/8/useradd
+  - https://attack.mitre.org/techniques/T1136/001/
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="and">
+            <CommandLine condition="contains any">useradd</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

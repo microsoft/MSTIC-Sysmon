@@ -1,0 +1,22 @@
+<!--
+  dd: convert and copy a file.
+
+  Reference:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_binary_padding.yml
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1027.001/T1027.001.md
+  - https://www.man7.org/linux/man-pages/man1/dd.1.html
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="and">
+            <Image condition="is">/bin/dd</Image>
+            <CommandLine condition="contains">dd</CommandLine>
+             <CommandLine condition="contains">if=</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
