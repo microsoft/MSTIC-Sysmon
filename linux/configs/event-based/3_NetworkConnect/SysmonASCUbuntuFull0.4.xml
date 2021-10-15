@@ -1,0 +1,23 @@
+<Sysmon schemaversion="4.22">
+  <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <NetworkConnect onmatch="exclude">
+        <Rule name="" groupRelation="or">
+          <Image condition="is">/lib/systemd/systemd-resolved</Image>
+          <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+          <DestinationIp condition="is">168.63.129.16</DestinationIp>
+          <DestinationIp condition="is">169.254.169.254</DestinationIp>
+        </Rule>
+        <Rule name="Rsyslogd" groupRelation="and">
+          <Image condition="is">/usr/sbin/rsyslogd</Image>
+          <DestinationIp condition="is">127.0.0.1</DestinationIp>
+        </Rule>
+        <Rule name="homeDNS" groupRelation="and">
+          <SourceIp condition="is">127.0.0.1</SourceIp>
+          <DestinationIp condition="is">127.0.0.53</DestinationIp>
+        </Rule>
+      </NetworkConnect>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

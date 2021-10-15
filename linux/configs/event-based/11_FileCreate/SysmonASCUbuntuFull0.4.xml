@@ -1,0 +1,37 @@
+<Sysmon schemaversion="4.22">
+  <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <FileCreate onmatch="exclude">
+        <Image condition="is">/opt/omi/bin/omicli</Image>
+        <Image condition="is">/usr/sbin/logrotate</Image>
+        <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+        <Image condition="is">/sbin/xtables-multi</Image>
+        <TargetFilename condition="is">/dev/null</TargetFilename>
+        <TargetFilename condition="begin with">/var/log/azure/</TargetFilename>
+        <TargetFilename condition="begin with">/var/opt/omi/</TargetFilename>
+        <TargetFilename condition="begin with">/var/lib/waagent/</TargetFilename>
+        <TargetFilename condition="begin with">/var/opt/microsoft/omsconfig/</TargetFilename>
+        <TargetFilename condition="begin with">/etc/opt/omi/conf/omsconfig/</TargetFilename>
+        <TargetFilename condition="begin with">/var/opt/microsoft/linuxmonagent/</TargetFilename>
+        <TargetFilename condition="begin with">/var/opt/microsoft/omsagent/</TargetFilename>
+        <Rule name="OpenPGP method" groupRelation="and">
+          <Image condition="is">/usr/lib/apt/methods/gpgv</Image>
+          <TargetFilename condition="begin with">/tmp/apt.conf.</TargetFilename>
+        </Rule>
+        <Rule name="ClamscanTempFiles" groupRelation="and">
+          <Image condition="is">/usr/bin/clamscan</Image>
+          <TargetFilename condition="begin with">/tmp/</TargetFilename>
+        </Rule>
+        <Rule name="AptGetTempFiles" groupRelation="and">
+          <Image condition="is">/usr/bin/apt-get</Image>
+          <TargetFilename condition="begin with">/tmp/fileutl.message</TargetFilename>
+        </Rule>
+        <Rule name="MicrosoftAgentStorage" groupRelation="and">
+          <Image condition="is">/opt/microsoft/dependency-agent/bin/microsoft-dependency-agent</Image>
+          <TargetFilename condition="begin with">	/var/opt/microsoft/dependency-agent/storage/</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

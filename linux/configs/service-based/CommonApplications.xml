@@ -1,0 +1,23 @@
+<!--
+	Sysmon For Linux configuration to filter out security events
+-->
+<Sysmon schemaversion="4.70">
+   <!-- Capture all hashes -->
+   <HashAlgorithms>*</HashAlgorithms>
+   <EventFiltering>
+   		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 1 == Process Create. Log all newly created processes -->
+			<ProcessCreate onmatch="exclude">
+				<Image condition="is">/usr/bin/dircolors</Image> <!-- dircolors - color setup for ls -->
+			</ProcessCreate>
+		</RuleGroup>
+		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 5 == Process terminated. Log all processes terminated except -->
+			<ProcessTerminate onmatch="exclude">
+				<Image condition="is">/sbin/xtables-multi</Image> <!-- IPtables -->
+				<Image condition="is">/usr/bin/clear</Image> <!-- Clearing terminal -->
+				<Image condition="is">/lib/systemd/systemd-journald</Image> <!-- systemd-journald is a system service that collects and stores logging data. It creates and maintains structured, indexed journals based on logging information that is received from a variety of sources -->
+			</ProcessTerminate>
+		</RuleGroup>
+  </EventFiltering>
+</Sysmon>

@@ -1,0 +1,23 @@
+<!--
+	Sysmon For Linux configuration to filter out security events
+-->
+<Sysmon schemaversion="4.70">
+   <!-- Capture all hashes -->
+   <HashAlgorithms>*</HashAlgorithms>
+   <EventFiltering>
+		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 3 == Network Connection Detected. Log all initiated network connection except -->
+			<NetworkConnect onmatch="exclude">
+				<Rule name="LocalDNSCachingResolverCall" groupRelation="and">
+					<SourceIp condition="is">127.0.0.53</SourceIp> <!-- 127.0.0.53 is the address of the local caching stub resolver. It forwards DNS requests to whatever upstream DNS servers you specify. -->
+					<DestinationIp condition="is">127.0.0.1</DestinationIp>
+					<SourcePort condition="is">53</SourcePort>
+				</Rule>
+				<Rule name="LocalDNSCachingResolverDest" groupRelation="and">
+					<DestinationIp condition="is">127.0.0.53</DestinationIp> <!-- 127.0.0.53 is the address of the local caching stub resolver. It forwards DNS requests to whatever upstream DNS servers you specify. -->
+					<DestinationPort condition="is">53</DestinationPort>
+				</Rule>
+			</NetworkConnect>
+		</RuleGroup>
+  </EventFiltering>
+</Sysmon>

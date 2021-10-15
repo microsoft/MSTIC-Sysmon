@@ -1,14 +1,9 @@
-# Project
+# MSTIC Sysmon Resources
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+An open-source initiative by the Microsoft Threat Intelligence Center (MSTIC) R&D team to share resources used during research and detection development involving the System Monitor (**Sysmon**) utility from Sysinternals. This repository will cover the following Sysmon tools:
 
-As the maintainer of this project, please make a few updates:
-
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+* [Sysmon for Windows](https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon)
+* [Sysmon for Linux](https://github.com/Sysinternals/SysmonForLinux)
 
 ## Contributing
 

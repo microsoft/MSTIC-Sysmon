@@ -1,0 +1,26 @@
+<!--
+	Sysmon For Linux configuration to filter out security events
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="SSHBasedPossibleLateralMovementActivity" groupRelation="and">
+            <Image condition="ends with">ssh</Image>
+            <CommandLine condition="contains">ConnectTimeout=</CommandLine>
+            <CommandLine condition="contains">BatchMode=yes</CommandLine>
+            <CommandLine condition="contains">StrictHostKeyChecking=no</CommandLine>
+            <CommandLine condition="contains">wget</CommandLine>
+        </Rule>
+        <Rule name="SSHBasedPossibleLateralMovementActivity" groupRelation="and">
+            <Image condition="ends with">ssh</Image>
+            <CommandLine condition="contains">ConnectTimeout=</CommandLine>
+            <CommandLine condition="contains">BatchMode=yes</CommandLine>
+            <CommandLine condition="contains">StrictHostKeyChecking=no</CommandLine>
+            <CommandLine condition="contains">curl</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

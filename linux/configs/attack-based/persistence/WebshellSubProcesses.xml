@@ -1,0 +1,31 @@
+<!--
+	Sysmon For Linux configuration to filter out security events
+    References:
+    - https://github.com/SigmaHQ/sigma/blob/231b54e526bdfb2d991f0062e4c5d6621b3e4dd7/rules/linux/process_creation/lnx_webshell_detection.yml
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="and">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <Image condition="ends with">whoami</Image>
+            <Image condition="ends with">ifconfig</Image>
+            <Image condition="ends with">/usr/bin/ip</Image>
+            <Image condition="ends with">/bin/uname</Image>
+        </Rule>
+        <Rule name="" groupRelation="or">
+            <!-- General -->
+            <ParentImage condition="ends with">httpd</ParentImage>
+            <ParentImage condition="ends with">lighttpd</ParentImage>
+            <ParentImage condition="ends with">nginx</ParentImage>
+            <ParentImage condition="ends with">apache2</ParentImage>
+            <ParentImage condition="ends with">node</ParentImage>
+            <!-- Tomcat -->
+            <ParentCommandLine condition="contains">/bin/java</ParentCommandLine>
+            <ParentCommandLine condition="contains">tomcat</ParentCommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

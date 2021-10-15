@@ -1,0 +1,28 @@
+<Sysmon schemaversion="4.22">
+  <HashAlgorithms>md5,sha256,IMPHASH</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <FileDelete onmatch="exclude">
+        <TargetFilename condition="begin with">/etc/opt/omi/conf/omsconfig/configuration/</TargetFilename>
+        <TargetFilename condition="begin with">/tmp/fileutl.message</TargetFilename>
+        <TargetFilename condition="begin with">/var/lib/waagent/events/</TargetFilename>
+        <Rule name="ClamAV" groupRelation="and">
+          <Image condition="is">/usr/bin/clamscan</Image>
+          <TargetFilename condition="end with">.tmp</TargetFilename>
+        </Rule>
+        <Rule name="OMSRuby" groupRelation="and">
+          <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+          <User condition="is">omsagent</User>
+        </Rule>
+        <Rule name="MSFTDepAgt" groupRelation="and">
+          <Image condition="is">/opt/microsoft/dependency-agent/bin/microsoft-dependency-agent</Image>
+          <TargetFilename condition="begin with">/var/opt/microsoft/dependency-agent/</TargetFilename>
+        </Rule>
+        <Rule name="OMSagentTemp" groupRelation="and">
+          <User condition="is">omsagent</User>
+          <TargetFilename condition="begin with">/var/opt/microsoft/omsagent/</TargetFilename>
+        </Rule>
+      </FileDelete>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

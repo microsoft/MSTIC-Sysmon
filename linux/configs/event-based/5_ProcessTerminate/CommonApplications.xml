@@ -1,0 +1,12 @@
+<Sysmon schemaversion="4.70">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessTerminate onmatch="exclude">
+        <Image condition="is">/sbin/xtables-multi</Image>
+        <Image condition="is">/usr/bin/clear</Image>
+        <Image condition="is">/lib/systemd/systemd-journald</Image>
+      </ProcessTerminate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

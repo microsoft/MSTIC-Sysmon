@@ -1,0 +1,18 @@
+<Sysmon schemaversion="4.70">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <NetworkConnect onmatch="exclude">
+        <Rule name="LocalDNSCachingResolverCall" groupRelation="and">
+          <SourceIp condition="is">127.0.0.53</SourceIp>
+          <DestinationIp condition="is">127.0.0.1</DestinationIp>
+          <SourcePort condition="is">53</SourcePort>
+        </Rule>
+        <Rule name="LocalDNSCachingResolverDest" groupRelation="and">
+          <DestinationIp condition="is">127.0.0.53</DestinationIp>
+          <DestinationPort condition="is">53</DestinationPort>
+        </Rule>
+      </NetworkConnect>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

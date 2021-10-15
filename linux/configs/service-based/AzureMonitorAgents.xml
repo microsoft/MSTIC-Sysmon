@@ -1,0 +1,111 @@
+<!--
+    Azure Monitor Agent
+	*******************
+	The Azure Monitor agent (AMA) collects monitoring data from the guest operating system of Azure virtual machines and delivers it to Azure Monitor.
+	This article provides an overview of the Azure Monitor agent and includes information on how to install it and how to configure data collection.
+	
+	The Azure Monitor agent replaces the following legacy agents that are currently used by Azure Monitor to collect guest data from virtual machines (view known gaps):
+	- Log Analytics agent: Sends data to a Log Analytics workspace and supports VM insights and monitoring solutions.
+	- Diagnostics extension: Sends data to Azure Monitor Metrics (Windows only), Azure Event Hubs, and Azure Storage.
+	- Telegraf agent: Sends data to Azure Monitor Metrics (Linux only).
+
+	Azure Log Analytics Agent
+	*************************
+	The Azure Log Analytics agent collects telemetry from Windows and Linux virtual machines in any cloud, on-premises machines, and those monitored by System Center Operations Manager and sends it collected data to your Log Analytics workspace in Azure Monitor.
+	The Log Analytics agent also supports insights and other services in Azure Monitor such as VM insights, Azure Security Center, and Azure Automation.
+	This article provides a detailed overview of the agent, system and network requirements, and deployment methods.
+
+	Microsoft Azure Linux Agent (waagent)
+	*************************************
+	The Microsoft Azure Linux Agent (waagent) manages Linux & FreeBSD provisioning, and VM interaction with the Azure Fabric Controller.
+	In addition to the Linux Agent providing provisioning functionality, Azure also provides the option of using cloud-init for some Linux OSes.
+
+	Azure diagnostics extension (LAD)
+	*********************************
+	The Azure Diagnostics extension collects monitoring data from the guest operating system and workloads of Azure virtual machines and other compute resources.
+	It primarily collects data into Azure Storage but also allows you to define data sinks to also send data to other destinations such as Azure Monitor Metrics and Azure Event Hubs.
+
+	Telegraf agent
+	**************
+	The InfluxData Telegraf agent is used to collect performance data from Linux computers to Azure Monitor Metrics.
+
+    Reference:
+	- https://docs.microsoft.com/en-us/azure/azure-monitor/agents/agents-overview
+	- https://docs.microsoft.com/en-us/azure/virtual-machines/extensions/agent-linux
+	- https://docs.microsoft.com/en-us/azure/azure-monitor/agents/log-analytics-agent
+	- https://github.com/Microsoft/OMS-Agent-for-Linux
+	- https://github.com/Microsoft/OMS-Agent-for-Linux/blob/master/docs/OMS-Agent-for-Linux.md
+-->
+
+<Sysmon schemaversion="4.70">
+    <HashAlgorithms>*</HashAlgorithms>
+    <EventFiltering>
+		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 1 == Process Create. Log all newly created processes except -->
+			<ProcessCreate onmatch="exclude">
+				<CurrentDirectory condition="begin with">/var/lib/waagent/</CurrentDirectory>
+				<Image condition="is">/opt/microsoft/auoms/bin/auomsctl</Image>
+				<CommandLine condition="is">pgrep -U omsagent omiagent</CommandLine>
+				<ParentImage condition="is">/opt/microsoft/auoms/bin/auomsctl</ParentImage>
+				<ParentImage condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</ParentImage>
+				<Rule name="omsagentPython" groupRelation="and">
+					<User condition="is">omsagent</User>
+					<ParentImage condition="is">/usr/bin/python2.7</ParentImage>
+				</Rule>
+			</ProcessCreate>
+		</RuleGroup>
+		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 3 == Network Connection. Log all network connection except -->
+			<NetworkConnect onmatch="exclude">
+				<Rule name="" groupRelation="or">
+					<Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+					<DestinationIp condition="is">168.63.129.16</DestinationIp> <!-- IP address 168.63.129.16 is a virtual public IP address that is used to facilitate a communication channel to Azure platform resources. -->
+				</Rule>
+			</NetworkConnect>
+		</RuleGroup>
+		<RuleGroup name="" groupRelation="or">
+			<!-- Event ID 11 == FileCreate. Log everything except -->
+			<FileCreate onmatch="exclude">
+				<Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+				<TargetFilename condition="begin with">/var/lib/waagent/</TargetFilename> <!-- Microsoft Azure Linux agent -->
+				<TargetFilename condition="begin with">/var/opt/microsoft/omsconfig/</TargetFilename>  <!-- oms agent config -->
+				<TargetFilename condition="begin with">/etc/opt/omi/conf/omsconfig/</TargetFilename>  <!-- oms agent config -->
+				<TargetFilename condition="begin with">/var/opt/microsoft/linuxmonagent/</TargetFilename> <!-- Linux monitoring agent -->
+				<TargetFilename condition="begin with">/var/opt/microsoft/omsagent/</TargetFilename>  <!-- oms agent config -->
+				<Rule name="" groupRelation="and"> <!-- Common omsagent commands -->
+					<User condition="is">syslog</User>
+					<TargetFilename condition="contains">microsoft/linuxmonagent</TargetFilename>
+					<Image condition="is">/usr/sbin/mdsd</Image>
+				</Rule>
+				<Rule name="" groupRelation="and"> <!-- Common Monitor Agent -->
+					<User condition="is">syslog</User>
+					<Image condition="is">/opt/microsoft/azuremonitoragent/bin/mdsd</Image>
+					<TargetFilename condition="begin with">/var/opt/microsoft/azuremonitoragent/</TargetFilename>
+				</Rule>
+			</FileCreate>
+		</RuleGroup>
+		<RuleGroup name="" groupRelation="or">
+			<!--Event ID 23 == File Delete. Log everything except -->
+			<FileDelete onmatch="exclude">
+				<Rule name="OMSRuby" groupRelation="and">
+					<Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
+					<User condition="is">omsagent</User>
+				</Rule>
+				<Rule name="MSFTDepAgt" groupRelation="and">
+					<Image condition="is">/opt/microsoft/dependency-agent/bin/microsoft-dependency-agent</Image>
+					<TargetFilename condition="begin with">/var/opt/microsoft/dependency-agent/</TargetFilename>
+				</Rule>
+				<Rule name="" groupRelation="and">
+					<User condition="is">syslog</User>
+					<TargetFilename condition="contains">microsoft/linuxmonagent</TargetFilename>
+					<Image condition="is">/usr/sbin/mdsd</Image>
+				</Rule>
+				<Rule name="" groupRelation="and">
+					<User condition="is">root</User>
+					<TargetFilename condition="begin with">/var/lib/waagent/</TargetFilename>
+					<Image condition="begin with">/usr/bin/python</Image>
+				</Rule>
+			</FileDelete>
+		</RuleGroup>
+    </EventFiltering>
+</Sysmon>
