@@ -12,7 +12,7 @@
       <ProcessCreate onmatch="include">
         <Rule name="" groupRelation="and">
             <Image condition="is">/bin/touch</Image>
-            <CommandLine condition="contains any">t;--time</CommandLine>
+            <CommandLine condition="contains any">-r;--reference;-t;--time</CommandLine>
         </Rule>
       </ProcessCreate>
     </RuleGroup>
