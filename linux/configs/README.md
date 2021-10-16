@@ -2,7 +2,7 @@
 
 * We are currently creating Sysmon configs based on services or adversarial techniques we perform research on while developing detections.
 * We believe that organizing our Sysmon configs at a higher level over event IDs allows us to manage them a little bit better and expedites the conversations around coverage over techniques used by threat actors.
-* You can use these configs while exploring your environment and focus on a few interesting patterns of behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
+* You can use these configs to monitor interesting patterns of behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
 
 ## Split Configs by Event ID
 
@@ -16,7 +16,7 @@ Get-ChildItem .\attack-based\ -File | Select-Object -ExpandProperty Fullname | S
 
 ## Creating a Master Configuration
 
-Finally, we can create main configs for inclusions and exclusions defined by each config under the [event-based](event-based) folder. These might be configs that you could use in your lab environment (For production, make sure it goes **after several reviews**. **use it at your own risk**).
+Finally, we can create main configs for inclusions and exclusions defined by each config under the [event-based](event-based) folder. These might be configs that you could use in your lab environment (For production, make sure they go through a review process. **Use them at your own risk**).
 
 ```PowerShell
 Import-Module .\scripts\ConvertTo-XmlMainConfig.ps1
@@ -34,12 +34,15 @@ We hope to extend and improve these concepts with the help of the InfoSec commun
 * Jessen Kurien ([@jessen_kurien](https://twitter.com/jessen_kurien))
 * Roberto Rodriguez ([@Cyb3rWard0g](https://twitter.com/Cyb3rWard0g))
 
-## Credit - Great Community Resources
+## Credits - Great Community
 
-* [Florian Roth @cyb3rops](https://twitter.com/cyb3rops)
-    * [https://github.com/Neo23x0/auditd/blob/master/audit.rules](https://github.com/Neo23x0/auditd/blob/master/audit.rules)
-    * [https://github.com/SigmaHQ/sigma](https://github.com/SigmaHQ/sigma)
+### Researchers
+* Florian Roth [@cyb3rops](https://twitter.com/cyb3rops)
+* Tony Lambert [@ForensicITGuy](https://twitter.com/ForensicITGuy)
 * [bfuzzy1](https://twitter.com/bfuzzy1)
-    * [https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules](https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules)
-* [Red Canary](https://twitter.com/redcanary)
-    * [https://github.com/redcanaryco/atomic-red-team](https://github.com/redcanaryco/atomic-red-team)
+
+### Projects
+* [https://github.com/Neo23x0/auditd/blob/master/audit.rules](https://github.com/Neo23x0/auditd/blob/master/audit.rules)
+* [https://github.com/SigmaHQ/sigma](https://github.com/SigmaHQ/sigma)
+* [https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules](https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules)
+* [https://github.com/redcanaryco/atomic-red-team](https://github.com/redcanaryco/atomic-red-team)
