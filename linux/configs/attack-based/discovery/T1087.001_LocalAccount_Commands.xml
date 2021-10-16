@@ -1,0 +1,17 @@
+<!--
+  Technique: Account Discovery: Local Account
+  Reference:
+  - https://attack.mitre.org/techniques/T1087/001/
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+          <CommandLine condition="contains">/etc/passwd</CommandLine>
+          <CommandLine condition="contains">/etc/sudoers</CommandLine>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
