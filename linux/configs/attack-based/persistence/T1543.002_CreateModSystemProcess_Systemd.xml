@@ -3,6 +3,7 @@
   Reference:
   - https://man7.org/linux/man-pages/man1/systemd.1.html
   - https://attack.mitre.org/techniques/T1543/002/
+  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L130-L133
 -->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
@@ -16,6 +17,7 @@
         <Rule name="" groupRelation="or">
             <TargetFilename condition="begin with">/etc/systemd/system</TargetFilename>
             <TargetFilename condition="begin with">/usr/lib/systemd/system</TargetFilename>
+            <TargetFilename condition="begin with">/run/systemd/system/<TargetFilename>
             <TargetFilename condition="contains">/systemd/user/</TargetFilename>
         </Rule>
       </FileCreate>
