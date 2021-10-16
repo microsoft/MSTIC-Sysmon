@@ -3,6 +3,8 @@
   Reference:
   - https://linux.die.net/man/8/useradd
   - https://attack.mitre.org/techniques/T1136/001/
+  - https://github.com/Neo23x0/auditd/blob/master/audit.rules#L168
+  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L141
 -->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
@@ -10,6 +12,7 @@
       <ProcessCreate onmatch="include">
         <Rule name="" groupRelation="or">
             <Image condition="end with">useradd</Image>
+            <Image condition="end with">adduser</Image>
         </Rule>
       </ProcessCreate>
     </RuleGroup>
