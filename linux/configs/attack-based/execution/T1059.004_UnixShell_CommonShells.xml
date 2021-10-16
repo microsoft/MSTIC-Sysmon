@@ -1,0 +1,25 @@
+<!--
+  Technique: Command and Scripting Interpreter: Unix Shell
+  Reference:
+  - https://attack.mitre.org/techniques/T1059/004/
+  - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
+-->
+<Sysmon schemaversion="4.81">
+  <HashAlgorithms>*</HashAlgorithms>
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+          <Image condition="is">/bin/bash</Image>
+          <ParentImage condition="is">/bin/bash</ParentImage>
+          <Image condition="is">/bin/dash</Image>
+          <ParentImage condition="is">/bin/dash</ParentImage>
+          <Image condition="is">/usr/bin/dash</Image>
+          <ParentImage condition="is">/usr/bin/dash</ParentImage>
+          <Image condition="is">/bin/sh</Image>
+          <ParentImage condition="is">/bin/sh</ParentImage>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
