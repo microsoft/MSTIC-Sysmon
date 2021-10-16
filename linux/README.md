@@ -8,7 +8,7 @@ From an event-tracing perspective, eBPF allows us to write event-driven programs
 
 ## Resources
 
-* Sysmon configurations
+* [Sysmon configurations](configs)
 
 ## References
 * [https://techcommunity.microsoft.com/t5/azure-sentinel/automating-the-deployment-of-sysmon-for-linux-and-azure-sentinel/ba-p/2847054](https://techcommunity.microsoft.com/t5/azure-sentinel/automating-the-deployment-of-sysmon-for-linux-and-azure-sentinel/ba-p/2847054)

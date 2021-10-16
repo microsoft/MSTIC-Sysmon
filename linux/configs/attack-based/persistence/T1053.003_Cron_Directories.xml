@@ -1,0 +1,24 @@
+<!--
+  Technique: Scheduled Task/Job: Cron
+  Reference:
+  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L111-L128
+  - https://attack.mitre.org/techniques/T1053/003/
+-->
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <FileCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <TargetFilename condition="is">/etc/cron.allow</TargetFilename>
+            <TargetFilename condition="is">/etc/cron.deny</TargetFilename>
+            <TargetFilename condition="begin with">/etc/cron.d/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/cron.daily/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/cron.hourly/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/cron.monthly/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/cron.weekly/</TargetFilename>
+            <TargetFilename condition="begin with">/var/spool/cron/crontabs/</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

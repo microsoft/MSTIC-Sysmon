@@ -1,26 +1,26 @@
 <!--
-	Sysmon For Linux configuration to filter out security events
-    References:
-    - https://github.com/SigmaHQ/sigma/blob/231b54e526bdfb2d991f0062e4c5d6621b3e4dd7/rules/linux/process_creation/lnx_webshell_detection.yml
+  Technique: Server Software Component: Web Shell
+  References:
+  - https://attack.mitre.org/techniques/T1505/003/
+  - https://github.com/SigmaHQ/sigma/blob/231b54e526bdfb2d991f0062e4c5d6621b3e4dd7/rules/linux/process_creation/lnx_webshell_detection.yml
 -->
 <Sysmon schemaversion="4.81">
-  <HashAlgorithms>*</HashAlgorithms>
   <EventFiltering>
     <RuleGroup name="" groupRelation="and">
       <ProcessCreate onmatch="include">
         <Rule name="" groupRelation="or">
-            <Image condition="ends with">whoami</Image>
-            <Image condition="ends with">ifconfig</Image>
-            <Image condition="ends with">/usr/bin/ip</Image>
-            <Image condition="ends with">/bin/uname</Image>
+            <Image condition="end with">whoami</Image>
+            <Image condition="end with">ifconfig</Image>
+            <Image condition="end with">/usr/bin/ip</Image>
+            <Image condition="end with">/bin/uname</Image>
         </Rule>
         <Rule name="" groupRelation="or">
             <!-- General -->
-            <ParentImage condition="ends with">httpd</ParentImage>
-            <ParentImage condition="ends with">lighttpd</ParentImage>
-            <ParentImage condition="ends with">nginx</ParentImage>
-            <ParentImage condition="ends with">apache2</ParentImage>
-            <ParentImage condition="ends with">node</ParentImage>
+            <ParentImage condition="end with">httpd</ParentImage>
+            <ParentImage condition="end with">lighttpd</ParentImage>
+            <ParentImage condition="end with">nginx</ParentImage>
+            <ParentImage condition="end with">apache2</ParentImage>
+            <ParentImage condition="end with">node</ParentImage>
             <!-- Tomcat -->
             <ParentCommandLine condition="contains">/bin/java</ParentCommandLine>
             <ParentCommandLine condition="contains">tomcat</ParentCommandLine>

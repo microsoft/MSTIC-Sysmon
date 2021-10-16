@@ -1,0 +1,24 @@
+<!--
+  Technique: Create or Modify System Process: Systemd Service
+  Reference:
+  - https://man7.org/linux/man-pages/man1/systemd.1.html
+  - https://attack.mitre.org/techniques/T1543/002/
+-->
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <Image condition="end with">systemd</Image>
+        </Rule>
+      </ProcessCreate>
+      <FileCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <TargetFilename condition="begin with">/etc/systemd/system</TargetFilename>
+            <TargetFilename condition="begin with">/usr/lib/systemd/system</TargetFilename>
+            <TargetFilename condition="contains">/systemd/user/</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

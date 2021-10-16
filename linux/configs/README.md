@@ -1,8 +1,8 @@
 # Managing Sysmon Configurations
 
 * We are currently creating Sysmon configs based on services or adversarial techniques we perform research on while developing detections.
-* We believe that keeping the configs development at a higher level over event IDs allows to manage them a little bit better and expedites the conversations of coverage over techniques used by threat actors.
-* You can use attack based configs while exploring your environment to focus in a few interesting behaviors performed by potential threat actors in your organization.
+* We believe that organizing our Sysmon configs at a higher level over event IDs allows us to manage them a little bit better and expedites the conversations around coverage over techniques used by threat actors.
+* You can use these configs while exploring your environment and focus on a few interesting patterns of behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
 
 ## Split Configs by Event ID
 
@@ -26,10 +26,20 @@ ConvertTo-XmlMainConfig
 
 ## Community Contributions
 
-We hope to improve these concepts with the help of the InfoSec community. Feel free to reach out to us and open an issue for new ideas or feedback. Once again, we use this approach while doing research in our lab environment. Therefore, test everything before using it somewhere else. 
+We hope to extend and improve these concepts with the help of the InfoSec community. Feel free to reach out to us and open an issue for new ideas or feedback. Once again, we use this approach while doing research in our lab environment. Therefore, test everything before deploying anything in production. 
 
 ## Maintainers
 
 * Russ ([@russmcsec](https://twitter.com/russmcsec))
 * Jessen Kurien ([@jessen_kurien](https://twitter.com/jessen_kurien))
 * Roberto Rodriguez ([@Cyb3rWard0g](https://twitter.com/Cyb3rWard0g))
+
+## Credit - Great Community Resources
+
+* [Florian Roth @cyb3rops](https://twitter.com/cyb3rops)
+    * [https://github.com/Neo23x0/auditd/blob/master/audit.rules](https://github.com/Neo23x0/auditd/blob/master/audit.rules)
+    * [https://github.com/SigmaHQ/sigma](https://github.com/SigmaHQ/sigma)
+* [bfuzzy1](https://twitter.com/bfuzzy1)
+    * [https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules](https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules)
+* [Red Canary](https://twitter.com/redcanary)
+    * [https://github.com/redcanaryco/atomic-red-team](https://github.com/redcanaryco/atomic-red-team)
