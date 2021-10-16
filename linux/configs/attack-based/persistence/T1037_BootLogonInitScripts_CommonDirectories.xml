@@ -1,0 +1,20 @@
+<!--
+  Technique: Boot or Logon Initialization Scripts
+  Reference:
+  - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
+  - https://attack.mitre.org/techniques/T1037/
+  - https://github.com/Neo23x0/auditd/blob/master/audit.rules#L206-L207
+-->
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <FileCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <TargetFilename condition="begin with">/etc/init/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/init.d/</TargetFilename>
+            <TargetFilename condition="begin with">/etc/rc.d/</TargetFilename>
+        </Rule>
+      </FileCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
