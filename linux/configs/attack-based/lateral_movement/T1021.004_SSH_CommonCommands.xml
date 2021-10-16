@@ -1,5 +1,7 @@
 <!--
-	Sysmon For Linux configuration to filter out security events
+	Technique: Remote Services: SSH
+  References:
+  - https://attack.mitre.org/techniques/T1021/004/
 -->
 <Sysmon schemaversion="4.81">
   <HashAlgorithms>*</HashAlgorithms>
@@ -7,14 +9,14 @@
     <RuleGroup name="" groupRelation="or">
       <ProcessCreate onmatch="include">
         <Rule name="SSHBasedPossibleLateralMovementActivity" groupRelation="and">
-            <Image condition="ends with">ssh</Image>
+            <Image condition="end with">ssh</Image>
             <CommandLine condition="contains">ConnectTimeout=</CommandLine>
             <CommandLine condition="contains">BatchMode=yes</CommandLine>
             <CommandLine condition="contains">StrictHostKeyChecking=no</CommandLine>
             <CommandLine condition="contains">wget</CommandLine>
         </Rule>
         <Rule name="SSHBasedPossibleLateralMovementActivity" groupRelation="and">
-            <Image condition="ends with">ssh</Image>
+            <Image condition="end with">ssh</Image>
             <CommandLine condition="contains">ConnectTimeout=</CommandLine>
             <CommandLine condition="contains">BatchMode=yes</CommandLine>
             <CommandLine condition="contains">StrictHostKeyChecking=no</CommandLine>

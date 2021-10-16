@@ -1,5 +1,7 @@
 <!--
-	Sysmon For Linux configuration to include events related to MITRE ATT&CK TTP Ingress Tool Transfer (T1105)
+	Technique: Ingress Tool Transfer
+    References:
+    - https://attack.mitre.org/techniques/T1105/
 -->
 <Sysmon schemaversion="4.81">
     <HashAlgorithms>*</HashAlgorithms>

@@ -9,7 +9,7 @@
 Once we document our rule collection either by services or adversarial techniques, we can run the following script to split every config in by each Sysmon event ID documented. Those files are automatically created on their respective folders under the [event-based](event-based) folder.
 
 ```PowerShell
-Import-Module .\scripts\Split-XmlConfig.ps1
+Import-Module Split-XmlConfig.ps1
 
 Get-ChildItem .\attack-based\ -File | Select-Object -ExpandProperty Fullname | Split-XmlConfig
 ```
@@ -19,7 +19,7 @@ Get-ChildItem .\attack-based\ -File | Select-Object -ExpandProperty Fullname | S
 Finally, we can create main configs for inclusions and exclusions defined by each config under the [event-based](event-based) folder. These might be configs that you could use in your lab environment (For production, make sure they go through a review process. **Use them at your own risk**).
 
 ```PowerShell
-Import-Module .\scripts\ConvertTo-XmlMainConfig.ps1
+Import-Module ConvertTo-XmlMainConfig.ps1
 
 ConvertTo-XmlMainConfig
 ```

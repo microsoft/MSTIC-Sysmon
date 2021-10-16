@@ -1,7 +1,7 @@
 <!--
-  dd: convert and copy a file.
-
+  Technique: Data Destruction
   Reference:
+  - https://attack.mitre.org/techniques/T1485/
   - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
   - https://www.man7.org/linux/man-pages/man1/dd.1.html
 -->
