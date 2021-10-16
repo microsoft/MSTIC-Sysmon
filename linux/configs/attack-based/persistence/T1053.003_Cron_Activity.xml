@@ -7,10 +7,16 @@
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="" groupRelation="or">
+            <Image condition="end with">crontab</Image>
+        </Rule>
+      </ProcessCreate>
       <FileCreate onmatch="include">
         <Rule name="" groupRelation="or">
             <TargetFilename condition="is">/etc/cron.allow</TargetFilename>
             <TargetFilename condition="is">/etc/cron.deny</TargetFilename>
+            <TargetFilename condition="is">/etc/crontab</TargetFilename>
             <TargetFilename condition="begin with">/etc/cron.d/</TargetFilename>
             <TargetFilename condition="begin with">/etc/cron.daily/</TargetFilename>
             <TargetFilename condition="begin with">/etc/cron.hourly/</TargetFilename>
