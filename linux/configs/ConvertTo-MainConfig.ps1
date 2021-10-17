@@ -1,4 +1,4 @@
-function ConvertTo-XmlMainConfig {
+function ConvertTo-MainConfig {
     $newConfig = [xml]@'
 <!--
     SysmonForLinux
@@ -23,33 +23,33 @@ NG FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
   <EventFiltering>
     <!-- Event ID 1 == ProcessCreate. Log all newly created processes except-->
     <RuleGroup name="" groupRelation="or">
-        <ProcessCreate onmatch="exclude"/>
+        <ProcessCreate onmatch="include"/>
     </RuleGroup>
     <!-- Event ID 3 == NetworkConnect Detected. Log all network connections except -->
     <RuleGroup name="" groupRelation="or">
-        <NetworkConnect onmatch="exclude"/>
+        <NetworkConnect onmatch="include"/>
     </RuleGroup>
     <!-- Event ID 5 == ProcessTerminate. Log all processes terminated except -->
     <RuleGroup name="" groupRelation="or">
-        <ProcessTerminate onmatch="exclude"/>
+        <ProcessTerminate onmatch="include"/>
     </RuleGroup>
     <!-- Event ID 9 == RawAccessRead. Log all raw access read -->
     <RuleGroup name="" groupRelation="or">
-      <RawAccessRead onmatch="exclude"/>
+      <RawAccessRead onmatch="include"/>
     </RuleGroup>
     <!-- Event ID 11 == FileCreate. Log every file creation except -->
     <RuleGroup name="" groupRelation="or">
-        <FileCreate onmatch="exclude"/>
+        <FileCreate onmatch="include"/>
     </RuleGroup>
     <!--Event ID 23 == FileDelete. Log all files being deleted except-->
     <RuleGroup name="" groupRelation="or">
-        <FileDelete onmatch="exclude"/>
+        <FileDelete onmatch="include"/>
     </RuleGroup>
   </EventFiltering>
 </Sysmon>
 '@
 
-    $atomicConfigs = Get-ChildItem $PSScriptRoot\..\configs\events\* -Filter "*.xml" -Recurse | ForEach-Object {$_.fullname}
+    $atomicConfigs = Get-ChildItem $PSScriptRoot\_events\* -Filter "*.xml" -Recurse | ForEach-Object {$_.fullname}
     foreach ($config in $atomicConfigs) {
         # read atomic config
         $xmlObject = New-Object xml
@@ -66,5 +66,5 @@ NG FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
             [void]$eventNode.AppendChild($newConfig.ImportNode($node, $true))   
         }
     }
-    $newConfig.save((Join-Path -Path (Convert-Path $PSScriptRoot\..\configs\) -ChildPath 'main.xml'))
+    $newConfig.save((Join-Path -Path (Convert-Path $PSScriptRoot) -ChildPath 'main.xml'))
 }

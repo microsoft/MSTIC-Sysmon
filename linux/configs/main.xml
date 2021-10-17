@@ -21,88 +21,149 @@ NG FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
   <EventFiltering>
     <!-- Event ID 1 == ProcessCreate. Log all newly created processes except-->
     <RuleGroup name="" groupRelation="or">
-      <ProcessCreate onmatch="exclude">
-        <CurrentDirectory condition="begin with">/var/lib/waagent/</CurrentDirectory>
-        <Image condition="is">/opt/microsoft/auoms/bin/auomsctl</Image>
-        <CommandLine condition="is">pgrep -U omsagent omiagent</CommandLine>
-        <ParentImage condition="is">/opt/microsoft/auoms/bin/auomsctl</ParentImage>
-        <ParentImage condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</ParentImage>
-        <Rule name="omsagentPython" groupRelation="and">
-          <User condition="is">omsagent</User>
-          <ParentImage condition="is">/usr/bin/python2.7</ParentImage>
+      <ProcessCreate onmatch="include">
+        <Rule name="TechniqueID=T1021.004,TechniqueName=Remote Services: SSH" groupRelation="and">
+          <Image condition="end with">ssh</Image>
+          <CommandLine condition="contains">ConnectTimeout=</CommandLine>
+          <CommandLine condition="contains">BatchMode=yes</CommandLine>
+          <CommandLine condition="contains">StrictHostKeyChecking=no</CommandLine>
+          <CommandLine condition="contains any">wget;curl</CommandLine>
         </Rule>
-        <Image condition="is">/usr/bin/dircolors</Image>
+        <Rule name="TechniqueID=T1027.001,TechniqueName=Obfuscated Files or Information: Binary Padding" groupRelation="and">
+          <Image condition="is">/bin/dd</Image>
+          <CommandLine condition="contains all">dd;if=</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1033,TechniqueName=System Owner/User Discovery" groupRelation="or">
+          <CommandLine condition="contains">/var/run/utmp</CommandLine>
+          <CommandLine condition="contains">/var/log/btmp</CommandLine>
+          <CommandLine condition="contains">/var/log/wtmp</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1053.003,TechniqueName=Scheduled Task/Job: Cron" groupRelation="or">
+          <Image condition="end with">crontab</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1059.004,TechniqueName=Command and Scripting Interpreter: Unix Shell" groupRelation="or">
+          <Image condition="end with">/bin/bash</Image>
+          <Image condition="end with">/bin/dash</Image>
+          <Image condition="end with">/bin/sh</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1070.006,TechniqueName=Indicator Removal on Host: Timestomp" groupRelation="and">
+          <Image condition="is">/bin/touch</Image>
+          <CommandLine condition="contains any">-r;--reference;-t;--time</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1087.001,TechniqueName=Account Discovery: Local Account" groupRelation="or">
+          <CommandLine condition="contains">/etc/passwd</CommandLine>
+          <CommandLine condition="contains">/etc/sudoers</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
+          <Image condition="end with">wget</Image>
+          <Image condition="end with">curl</Image>
+          <Image condition="end with">ftpget</Image>
+          <Image condition="end with">tftp</Image>
+          <Image condition="end with">lwp-download</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1123,TechniqueName=Audio Capture" groupRelation="and">
+          <Image condition="contains">/bin/aplay</Image>
+          <CommandLine condition="contains">arecord</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1136.001,TechniqueName=Create Account: Local Account" groupRelation="or">
+          <Image condition="end with">useradd</Image>
+          <Image condition="end with">adduser</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1203,TechniqueName=Exploitation for Client Execution" groupRelation="and">
+          <User condition="is">root</User>
+          <LogonId condition="is">0</LogonId>
+          <CurrentDirectory condition="is">/var/opt/microsoft/scx/tmp</CurrentDirectory>
+          <CommandLine condition="contains">/bin/sh</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1485,TechniqueName=Data Destruction" groupRelation="and">
+          <Image condition="is">/bin/dd</Image>
+          <CommandLine condition="contains all">dd;of=;if=</CommandLine>
+          <CommandLine condition="contains any">if=/dev/zero;if=/dev/null</CommandLine>
+        </Rule>
+        <Rule name="TechniqueID=T1505.003,TechniqueName=Server Software Component: Web Shell" groupRelation="and">
+          <Image condition="contains any">whoami;ifconfig;/usr/bin/ip;/bin/uname</Image>
+          <ParentImage condition="contains any">httpd;lighttpd;nginx;apache2;node;dash</ParentImage>
+        </Rule>
+        <Rule name="TechniqueID=T1543.002,TechniqueName=Create or Modify System Process: Systemd Service" groupRelation="or">
+          <Image condition="end with">systemd</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1548.001,TechniqueName=Abuse Elevation Control Mechanism: Setuid and Setgid" groupRelation="or">
+          <Image condition="end with">chmod</Image>
+          <Image condition="end with">chown</Image>
+          <Image condition="end with">fchmod</Image>
+          <Image condition="end with">fchmodat</Image>
+          <Image condition="end with">fchown</Image>
+          <Image condition="end with">fchownat</Image>
+          <Image condition="end with">fremovexattr</Image>
+          <Image condition="end with">fsetxattr</Image>
+          <Image condition="end with">lchown</Image>
+          <Image condition="end with">lremovexattr</Image>
+          <Image condition="end with">lsetxattr</Image>
+          <Image condition="end with">removexattr</Image>
+          <Image condition="end with">setuid</Image>
+          <Image condition="end with">setgid</Image>
+          <Image condition="end with">setreuid</Image>
+          <Image condition="end with">setregid</Image>
+        </Rule>
       </ProcessCreate>
     </RuleGroup>
     <!-- Event ID 3 == NetworkConnect Detected. Log all network connections except -->
     <RuleGroup name="" groupRelation="or">
-      <NetworkConnect onmatch="exclude">
-        <Rule name="" groupRelation="or">
-          <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
-          <DestinationIp condition="is">168.63.129.16</DestinationIp>
-        </Rule>
-        <Rule name="LocalDNSCachingResolverCall" groupRelation="and">
-          <SourceIp condition="is">127.0.0.53</SourceIp>
-          <DestinationIp condition="is">127.0.0.1</DestinationIp>
-          <SourcePort condition="is">53</SourcePort>
-        </Rule>
-        <Rule name="LocalDNSCachingResolverDest" groupRelation="and">
-          <DestinationIp condition="is">127.0.0.53</DestinationIp>
-          <DestinationPort condition="is">53</DestinationPort>
+      <NetworkConnect onmatch="include">
+        <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
+          <Image condition="end with">wget</Image>
+          <Image condition="end with">curl</Image>
+          <Image condition="end with">ftpget</Image>
+          <Image condition="end with">tftp</Image>
+          <Image condition="end with">lwp-download</Image>
         </Rule>
       </NetworkConnect>
     </RuleGroup>
     <!-- Event ID 5 == ProcessTerminate. Log all processes terminated except -->
     <RuleGroup name="" groupRelation="or">
-      <ProcessTerminate onmatch="exclude">
-        <Image condition="is">/sbin/xtables-multi</Image>
-        <Image condition="is">/usr/bin/clear</Image>
-        <Image condition="is">/lib/systemd/systemd-journald</Image>
-      </ProcessTerminate>
+      <ProcessTerminate onmatch="include" />
+    </RuleGroup>
+    <!-- Event ID 9 == RawAccessRead. Log all raw access read -->
+    <RuleGroup name="" groupRelation="or">
+      <RawAccessRead onmatch="include" />
     </RuleGroup>
     <!-- Event ID 11 == FileCreate. Log every file creation except -->
     <RuleGroup name="" groupRelation="or">
-      <FileCreate onmatch="exclude">
-        <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
-        <TargetFilename condition="begin with">/var/lib/waagent/</TargetFilename>
-        <TargetFilename condition="begin with">/var/opt/microsoft/omsconfig/</TargetFilename>
-        <TargetFilename condition="begin with">/etc/opt/omi/conf/omsconfig/</TargetFilename>
-        <TargetFilename condition="begin with">/var/opt/microsoft/linuxmonagent/</TargetFilename>
-        <TargetFilename condition="begin with">/var/opt/microsoft/omsagent/</TargetFilename>
-        <Rule name="" groupRelation="and">
-          <User condition="is">syslog</User>
-          <TargetFilename condition="contains">microsoft/linuxmonagent</TargetFilename>
-          <Image condition="is">/usr/sbin/mdsd</Image>
+      <FileCreate onmatch="include">
+        <Rule name="TechniqueID=T1037,TechniqueName=Boot or Logon Initialization Scripts" groupRelation="or">
+          <TargetFilename condition="begin with">/etc/init/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/init.d/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/rc.d/</TargetFilename>
         </Rule>
-        <Rule name="" groupRelation="and">
-          <User condition="is">syslog</User>
-          <Image condition="is">/opt/microsoft/azuremonitoragent/bin/mdsd</Image>
-          <TargetFilename condition="begin with">/var/opt/microsoft/azuremonitoragent/</TargetFilename>
+        <Rule name="TechniqueID=T1053.003,TechniqueName=Scheduled Task/Job: Cron" groupRelation="or">
+          <TargetFilename condition="is">/etc/cron.allow</TargetFilename>
+          <TargetFilename condition="is">/etc/cron.deny</TargetFilename>
+          <TargetFilename condition="is">/etc/crontab</TargetFilename>
+          <TargetFilename condition="begin with">/etc/cron.d/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/cron.daily/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/cron.hourly/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/cron.monthly/</TargetFilename>
+          <TargetFilename condition="begin with">/etc/cron.weekly/</TargetFilename>
+          <TargetFilename condition="begin with">/var/spool/cron/crontabs/</TargetFilename>
+        </Rule>
+        <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
+          <Image condition="end with">wget</Image>
+          <Image condition="end with">curl</Image>
+          <Image condition="end with">ftpget</Image>
+          <Image condition="end with">tftp</Image>
+          <Image condition="end with">lwp-download</Image>
+        </Rule>
+        <Rule name="TechniqueID=T1543.002,TechniqueName=Create or Modify System Process: Systemd Service" groupRelation="or">
+          <TargetFilename condition="begin with">/etc/systemd/system</TargetFilename>
+          <TargetFilename condition="begin with">/usr/lib/systemd/system</TargetFilename>
+          <TargetFilename condition="begin with">/run/systemd/system/</TargetFilename>
+          <TargetFilename condition="contains">/systemd/user/</TargetFilename>
         </Rule>
       </FileCreate>
     </RuleGroup>
     <!--Event ID 23 == FileDelete. Log all files being deleted except-->
     <RuleGroup name="" groupRelation="or">
-      <FileDelete onmatch="exclude">
-        <Rule name="OMSRuby" groupRelation="and">
-          <Image condition="is">/opt/microsoft/omsagent/ruby/bin/ruby</Image>
-          <User condition="is">omsagent</User>
-        </Rule>
-        <Rule name="MSFTDepAgt" groupRelation="and">
-          <Image condition="is">/opt/microsoft/dependency-agent/bin/microsoft-dependency-agent</Image>
-          <TargetFilename condition="begin with">/var/opt/microsoft/dependency-agent/</TargetFilename>
-        </Rule>
-        <Rule name="" groupRelation="and">
-          <User condition="is">syslog</User>
-          <TargetFilename condition="contains">microsoft/linuxmonagent</TargetFilename>
-          <Image condition="is">/usr/sbin/mdsd</Image>
-        </Rule>
-        <Rule name="" groupRelation="and">
-          <User condition="is">root</User>
-          <TargetFilename condition="begin with">/var/lib/waagent/</TargetFilename>
-          <Image condition="begin with">/usr/bin/python</Image>
-        </Rule>
-      </FileDelete>
+      <FileDelete onmatch="include" />
     </RuleGroup>
   </EventFiltering>
 </Sysmon>

@@ -1,13 +1,3 @@
-<!--
-  Created: 10/15/2021
-  Modified: 10/17/2021
-
-  Technique: System Owner/User Discovery
-  Reference:
-  - https://attack.mitre.org/techniques/T1033/
-  - https://github.com/Neo23x0/auditd/blob/master/audit.rules#L266-L269
-  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L216-L219
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">

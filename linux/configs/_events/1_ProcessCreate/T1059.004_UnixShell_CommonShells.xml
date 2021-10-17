@@ -1,12 +1,3 @@
-<!--
-  Created: 10/15/2021
-  Modified: 10/17/2021
-
-  Technique: Command and Scripting Interpreter: Unix Shell
-  Reference:
-  - https://attack.mitre.org/techniques/T1059/004/
-  - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">

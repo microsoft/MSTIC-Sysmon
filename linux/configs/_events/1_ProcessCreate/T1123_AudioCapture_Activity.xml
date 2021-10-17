@@ -1,13 +1,3 @@
-<!--
-    Created: 10/15/2021
-    Modified: 10/17/2021
-    
-    Technique: Audio Capture
-    Reference:
-    - https://attack.mitre.org/techniques/T1123/
-    - https://github.com/SigmaHQ/sigma/blob/master/rules/linux/auditd/lnx_auditd_audio_capture.yml
-    - https://linux.die.net/man/1/arecord
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">

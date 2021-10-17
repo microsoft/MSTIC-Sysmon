@@ -1,0 +1,26 @@
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="TechniqueID=T1548.001,TechniqueName=Abuse Elevation Control Mechanism: Setuid and Setgid" groupRelation="or">
+          <Image condition="end with">chmod</Image>
+          <Image condition="end with">chown</Image>
+          <Image condition="end with">fchmod</Image>
+          <Image condition="end with">fchmodat</Image>
+          <Image condition="end with">fchown</Image>
+          <Image condition="end with">fchownat</Image>
+          <Image condition="end with">fremovexattr</Image>
+          <Image condition="end with">fsetxattr</Image>
+          <Image condition="end with">lchown</Image>
+          <Image condition="end with">lremovexattr</Image>
+          <Image condition="end with">lsetxattr</Image>
+          <Image condition="end with">removexattr</Image>
+          <Image condition="end with">setuid</Image>
+          <Image condition="end with">setgid</Image>
+          <Image condition="end with">setreuid</Image>
+          <Image condition="end with">setregid</Image>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

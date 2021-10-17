@@ -1,36 +1,38 @@
 <!--
+    Created: 10/15/2021
+    Modified: 10/17/2021
+    
 	Technique: Ingress Tool Transfer
     References:
     - https://attack.mitre.org/techniques/T1105/
 -->
 <Sysmon schemaversion="4.81">
-    <HashAlgorithms>*</HashAlgorithms>
     <EventFiltering>
         <RuleGroup name="" groupRelation="or">
             <ProcessCreate onmatch="include">
-            <Rule name="CommonDownloadProcessesID1" groupRelation="or">
-                <Image condition="end with">wget</Image>
-                <Image condition="end with">curl</Image>
-                <Image condition="end with">ftpget</Image>
-                <Image condition="end with">tftp</Image>
-                <Image condition="end with">lwp-download</Image>
-            </Rule>
+                <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
+                    <Image condition="end with">wget</Image>
+                    <Image condition="end with">curl</Image>
+                    <Image condition="end with">ftpget</Image>
+                    <Image condition="end with">tftp</Image>
+                    <Image condition="end with">lwp-download</Image>
+                </Rule>
             </ProcessCreate>
         </RuleGroup>
         <RuleGroup name="" groupRelation="or">
             <NetworkConnect onmatch="include">
-            <Rule name="CommonDownloadProcessesID3" groupRelation="or">
-                <Image condition="end with">wget</Image>
-                <Image condition="end with">curl</Image>
-                <Image condition="end with">ftpget</Image>
-                <Image condition="end with">tftp</Image>
-                <Image condition="end with">lwp-download</Image>
-            </Rule>
+                <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
+                    <Image condition="end with">wget</Image>
+                    <Image condition="end with">curl</Image>
+                    <Image condition="end with">ftpget</Image>
+                    <Image condition="end with">tftp</Image>
+                    <Image condition="end with">lwp-download</Image>
+                </Rule>
             </NetworkConnect>
         </RuleGroup>
         <RuleGroup name="" groupRelation="or">
             <FileCreate onmatch="include">
-                <Rule name="CommonDownloadProcessesID11" groupRelation="or">
+                <Rule name="TechniqueID=T1105,TechniqueName=Ingress Tool Transfer" groupRelation="or">
                     <Image condition="end with">wget</Image>
                     <Image condition="end with">curl</Image>
                     <Image condition="end with">ftpget</Image>

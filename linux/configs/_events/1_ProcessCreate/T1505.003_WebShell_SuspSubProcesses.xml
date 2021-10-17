@@ -1,12 +1,3 @@
-<!--
-  Created: 10/15/2021
-  Modified: 10/17/2021
-
-  Technique: Server Software Component: Web Shell
-  References:
-  - https://attack.mitre.org/techniques/T1505/003/
-  - https://github.com/SigmaHQ/sigma/blob/231b54e526bdfb2d991f0062e4c5d6621b3e4dd7/rules/linux/process_creation/lnx_webshell_detection.yml
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">

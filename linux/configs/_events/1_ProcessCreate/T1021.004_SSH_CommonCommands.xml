@@ -1,11 +1,3 @@
-<!--
-	Created: 10/15/2021
-  Modified: 10/17/2021
-
-  Technique: Remote Services: SSH
-  References:
-  - https://attack.mitre.org/techniques/T1021/004/
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">

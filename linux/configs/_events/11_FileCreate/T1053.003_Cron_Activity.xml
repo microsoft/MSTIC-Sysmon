@@ -1,21 +1,5 @@
-<!--
-  Created: 10/15/2021
-  Modified: 10/17/2021
-
-  Technique: Scheduled Task/Job: Cron
-  Reference:
-  - https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules#L111-L128
-  - https://attack.mitre.org/techniques/T1053/003/
--->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
-    <RuleGroup name="" groupRelation="or">
-      <ProcessCreate onmatch="include">
-        <Rule name="TechniqueID=T1053.003,TechniqueName=Scheduled Task/Job: Cron" groupRelation="or">
-          <Image condition="end with">crontab</Image>
-        </Rule>
-      </ProcessCreate>
-    </RuleGroup>
     <RuleGroup name="" groupRelation="or">
       <FileCreate onmatch="include">
         <Rule name="TechniqueID=T1053.003,TechniqueName=Scheduled Task/Job: Cron" groupRelation="or">

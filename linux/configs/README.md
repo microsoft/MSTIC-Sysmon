@@ -1,27 +1,28 @@
-# Managing Sysmon Configurations
+# Sysmon for Linux Config
 
-* We are currently creating Sysmon configs based on services or adversarial techniques we perform research on while developing detections.
-* We believe that organizing our Sysmon configs at a higher level over event IDs allows us to manage them a little bit better and expedites the conversations around coverage over techniques used by threat actors.
-* You can use these configs to monitor interesting patterns of behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
+An open-source initiative to document Sysmon for Linux configurations based on adversarial behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
 
-## Split Configs by Event ID
+## Goals
+* Enable the maintenance of separate configs to define data collection strategies in a more flexible way.
+* Expedite conversations around data coverage over techniques used by real threat actors.
+* Facilitate selective merging of configs based on interesting patterns of behavior mapped to [MITRE ATT&CK](https://attack.mitre.org/).
 
-Once we document our rule collection either by services or adversarial techniques, we can run the following script to split every config in by each Sysmon event ID documented. Those files are automatically created on their respective folders under the [event-based](event-based) folder.
+## Creating a Main Configuration
+
+* Run the following script to split every attack based config by Sysmon event IDs. Those files will be automatically created under the [_events](_events) folder.
 
 ```PowerShell
-Import-Module Split-XmlConfig.ps1
+Import-Module .\Split-XmlConfig.ps1
 
-Get-ChildItem .\attack-based\ -File | Select-Object -ExpandProperty Fullname | Split-XmlConfig
+Get-ChildItem .\attack-based\ -Recurse -File | Select-Object -ExpandProperty Fullname | Split-XmlConfig
 ```
 
-## Creating a Master Configuration
-
-Finally, we can create main configs for inclusions and exclusions defined by each config under the [event-based](event-based) folder. These might be configs that you could use in your lab environment (For production, make sure they go through a review process. **Use them at your own risk**).
+* Finally, create the main config (**Inclusions Only** for now) by running the following command:
 
 ```PowerShell
-Import-Module ConvertTo-XmlMainConfig.ps1
+Import-Module .\ConvertTo-MainConfig.ps1
 
-ConvertTo-XmlMainConfig
+ConvertTo-MainConfig
 ```
 
 ## Community Contributions
@@ -37,11 +38,15 @@ We hope to extend and improve these concepts with the help of the InfoSec commun
 ## Credits - Great Community
 
 ### Researchers
+* Matt Graeber [@mattifestation](https://twitter.com/mattifestation)
 * Florian Roth [@cyb3rops](https://twitter.com/cyb3rops)
 * Tony Lambert [@ForensicITGuy](https://twitter.com/ForensicITGuy)
 * [bfuzzy1](https://twitter.com/bfuzzy1)
 
-### Projects
+### Resources
+* [Initial Idea (2017) - Roberto Rodriguez and Matt Graeber](https://twitter.com/mattifestation/status/936630498964725760?s=20)]
+* [https://posts.specterops.io/working-with-sysmon-configurations-like-a-pro-through-better-tooling-be7ad7f99a47](https://posts.specterops.io/working-with-sysmon-configurations-like-a-pro-through-better-tooling-be7ad7f99a47)
+* [https://github.com/mattifestation/PSSysmonTools](https://github.com/mattifestation/PSSysmonTools)
 * [https://github.com/Neo23x0/auditd/blob/master/audit.rules](https://github.com/Neo23x0/auditd/blob/master/audit.rules)
 * [https://github.com/SigmaHQ/sigma](https://github.com/SigmaHQ/sigma)
 * [https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules](https://github.com/bfuzzy1/auditd-attack/blob/master/auditd-attack/auditd-attack.rules)

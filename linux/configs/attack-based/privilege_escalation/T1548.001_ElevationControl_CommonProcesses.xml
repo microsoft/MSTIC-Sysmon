@@ -1,4 +1,7 @@
 <!--
+  Created: 10/15/2021
+  Modified: 10/17/2021
+
   Technique: Abuse Elevation Control Mechanism: Setuid and Setgid
   Reference:
   - https://attack.mitre.org/techniques/T1548/001/
@@ -9,7 +12,7 @@
   <EventFiltering>
     <RuleGroup name="" groupRelation="or">
       <ProcessCreate onmatch="include">
-        <Rule name="" groupRelation="or">
+        <Rule name="TechniqueID=T1548.001,TechniqueName=Abuse Elevation Control Mechanism: Setuid and Setgid" groupRelation="or">
             <Image condition="end with">chmod</Image>
             <Image condition="end with">chown</Image>
             <Image condition="end with">fchmod</Image>
@@ -28,5 +31,6 @@
             <Image condition="end with">setregid</Image>
         </Rule>
       </ProcessCreate>
+    </RuleGroup>
   </EventFiltering>
 </Sysmon>

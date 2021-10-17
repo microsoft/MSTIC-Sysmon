@@ -33,13 +33,13 @@ function Split-XmlConfig {
             $newConfig = [xml]($currentConfig.OuterXml)
             # Import rule from current config to new config XML document
             $ruleImported = $newConfig.ImportNode($rule, $true)
-            # Add imported tule to new config
+            # Add imported rule to new config
             $eventFiltering = $newConfig.SelectSingleNode("//EventFiltering")
             [void]$eventFiltering.AppendChild($ruleImported)
 
             # Create XML document
             $ruleGroupName = $rule | Get-Member -MemberType Property -Name $ruleGroupNames | Select-Object -ExpandProperty Name
-            $folderPath = Get-ChildItem $PSScriptRoot\..\configs\event-based\* -filter "*$ruleGroupName*" -Directory | ForEach-Object { $_.fullname }
+            $folderPath = Get-ChildItem $PSScriptRoot\_events\* -filter "*$ruleGroupName*" -Directory | ForEach-Object { $_.fullname }
             $outputFile = Split-Path $Path -leaf
             $newConfig.Save((Join-Path -Path $folderPath -ChildPath $outputFile))
         }
