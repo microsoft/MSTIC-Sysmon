@@ -21,27 +21,27 @@ NG FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
 -->
 <Sysmon schemaversion="4.81">
   <EventFiltering>
-    <!-- Event ID 1 == ProcessCreate. Log all newly created processes except-->
+    <!-- Event ID 1 == ProcessCreate -->
     <RuleGroup name="" groupRelation="or">
         <ProcessCreate onmatch="include"/>
     </RuleGroup>
-    <!-- Event ID 3 == NetworkConnect Detected. Log all network connections except -->
+    <!-- Event ID 3 == NetworkConnect Detected -->
     <RuleGroup name="" groupRelation="or">
         <NetworkConnect onmatch="include"/>
     </RuleGroup>
-    <!-- Event ID 5 == ProcessTerminate. Log all processes terminated except -->
+    <!-- Event ID 5 == ProcessTerminate -->
     <RuleGroup name="" groupRelation="or">
         <ProcessTerminate onmatch="include"/>
     </RuleGroup>
-    <!-- Event ID 9 == RawAccessRead. Log all raw access read -->
+    <!-- Event ID 9 == RawAccessRead -->
     <RuleGroup name="" groupRelation="or">
       <RawAccessRead onmatch="include"/>
     </RuleGroup>
-    <!-- Event ID 11 == FileCreate. Log every file creation except -->
+    <!-- Event ID 11 == FileCreate -->
     <RuleGroup name="" groupRelation="or">
         <FileCreate onmatch="include"/>
     </RuleGroup>
-    <!--Event ID 23 == FileDelete. Log all files being deleted except-->
+    <!--Event ID 23 == FileDelete -->
     <RuleGroup name="" groupRelation="or">
         <FileDelete onmatch="include"/>
     </RuleGroup>
