@@ -1,0 +1,17 @@
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <Rule name="TechniqueID=T1046,TechniqueName=Network Services Scanning" groupRelation="or">
+          <Image condition="end with">/netcat</Image>
+          <Image condition="end with">/ncl</Image>
+          <Image condition="end with">/telnet</Image>
+          <Image condition="end with">/nmap</Image>
+          <Image condition="end with">/curl</Image>
+          <Image condition="end with">/wget</Image>
+          <CommandLine condition="contains">l</CommandLine>
+        </Rule>
+      </NetworkConnect>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
