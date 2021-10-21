@@ -220,6 +220,7 @@ _pkginfo.txt
 !?*.[Cc]ache/
 
 # Others
+ark_unCat/
 ClientBin/
 ~$*
 *~
