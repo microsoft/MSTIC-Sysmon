@@ -8,5 +8,9 @@ Note that Sysmon does not provide analysis of the events it generates, nor does 
 
 * Roberto Rodriguez ([@Cyb3rWard0g](https://twitter.com/Cyb3rWard0g))
 
+## Resources
+
+* [Sysmon event schemas](schemas)
+
 ## References
 * [https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon](https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon)
