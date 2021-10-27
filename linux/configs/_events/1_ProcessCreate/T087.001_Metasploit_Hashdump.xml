@@ -1,0 +1,13 @@
+<Sysmon schemaversion="4.81">
+  <EventFiltering>
+    <RuleGroup name="" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <Rule name="TechniqueID=T1087.001,TechniqueName=Account Discovery: Local Account" groupRelation="and">
+			<Image condition="is">/usr/bin/dash</Image>
+			<CommandLine condition="contains any">-c command -v id && echo true;-c id -u</CommandLine>
+			<User condition="is">root</CommandLine>
+        </Rule>
+      </ProcessCreate>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
